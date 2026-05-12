@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* Theme system with single main color palette and light/dark modes */
+@supports (color: oklch(50% 0.1 200)) {
+  @theme {
+    /* Main brand color - Book club theme (warm, inviting purple/violet) */
+    --color-primary: oklch(0.60 0.20 285);
+
+    /* Calculated color ramp from main color */
+    --color-primary-50: oklch(from var(--color-primary) clamp(0, l + 0.35, 1) calc(c * 0.3) h);
+    --color-primary-100: oklch(from var(--color-primary) clamp(0, l + 0.28, 1) calc(c * 0.4) h);
+    --color-primary-200: oklch(from var(--color-primary) clamp(0, l + 0.21, 1) calc(c * 0.5) h);
+    --color-primary-300: oklch(from var(--color-primary) clamp(0, l + 0.14, 1) calc(c * 0.7) h);
+    --color-primary-400: oklch(from var(--color-primary) clamp(0, l + 0.07, 1) calc(c * 0.85) h);
+    --color-primary-500: var(--color-primary);
+    --color-primary-600: oklch(from var(--color-primary) clamp(0, l - 0.05, 1) calc(c * 1.05) h);
+    --color-primary-700: oklch(from var(--color-primary) clamp(0, l - 0.12, 1) calc(c * 0.95) h);
+    --color-primary-800: oklch(from var(--color-primary) clamp(0, l - 0.20, 1) calc(c * 0.8) h);
+    --color-primary-900: oklch(from var(--color-primary) clamp(0, l - 0.28, 1) calc(c * 0.6) h);
+    --color-primary-950: oklch(from var(--color-primary) clamp(0, l - 0.35, 1) calc(c * 0.4) h);
+  }
+}
+
+/* Fallback for browsers without OKLCH support */
+@supports not (color: oklch(50% 0.1 200)) {
+  @theme {
+    --color-primary-50: #faf5ff;
+    --color-primary-100: #f3e8ff;
+    --color-primary-200: #e9d5ff;
+    --color-primary-300: #d8b4fe;
+    --color-primary-400: #c084fc;
+    --color-primary-500: #a855f7;
+    --color-primary-600: #9333ea;
+    --color-primary-700: #7e22ce;
+    --color-primary-800: #6b21a8;
+    --color-primary-900: #581c87;
+    --color-primary-950: #3b0764;
+  }
+}
+
+/* Light mode theme - softer, warmer background with better contrast */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Light mode: Warm, inviting backgrounds with excellent readability */
+[data-theme="light"] {
+  /* Page background - soft warm white */
+  --bg-base: rgb(250 249 248);
+  --bg-elevated: rgb(255 255 255);
+  --bg-muted: rgb(247 245 243);
+
+  /* Text colors - ensuring WCAG AAA contrast */
+  --text-primary: rgb(23 23 23);
+  --text-secondary: rgb(82 82 91);
+  --text-tertiary: rgb(113 113 122);
+
+  /* Border colors - subtle but visible */
+  --border-light: rgb(228 228 231);
+  --border-medium: rgb(212 212 216);
+  --border-strong: rgb(161 161 170);
+}
+
+/* Dark mode theme - refined for better UX */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Page background - true dark with slight warmth */
+  --bg-base: rgb(17 17 19);
+  --bg-elevated: rgb(30 30 33);
+  --bg-muted: rgb(24 24 27);
+
+  /* Text colors - softened whites for reduced eye strain */
+  --text-primary: rgb(250 250 250);
+  --text-secondary: rgb(212 212 216);
+  --text-tertiary: rgb(161 161 170);
+
+  /* Border colors - subtle separation */
+  --border-light: rgb(39 39 42);
+  --border-medium: rgb(63 63 70);
+  --border-strong: rgb(82 82 91);
+}
+
+/* Apply theme-aware background to body */
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Reset transitions for transforms and other properties */
+:where(.transform, [class*="translate"], [class*="scale"], [class*="rotate"]) {
+  transition-property: transform;
+}
+
+/* Global styles */
+html {
+  scroll-behavior: smooth;
+}
